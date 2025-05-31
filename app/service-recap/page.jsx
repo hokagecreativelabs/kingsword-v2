@@ -93,8 +93,7 @@ const YTPage = () => {
                   </span>
                 </h1>
                 <p className="text-xl text-gray-300 leading-relaxed">
-                  Experience powerful worship, inspiring messages, and life-changing moments. 
-                  Never miss a service with our complete video library.
+                  Experience powerful worship and life-changing moments. 
                 </p>
               </div>
               

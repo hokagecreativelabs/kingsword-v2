@@ -55,7 +55,7 @@ const LocationCard = ({ name, address, services, imageUrl, link }) => (
 );
 
 const Locations = () => (
-  <div className="px-4 py-24">
+  <div className="px-4 py-24 bg-white">
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {locations.CA.map((location, index) => (
         <LocationCard key={index} {...location} />
@@ -63,5 +63,6 @@ const Locations = () => (
     </div>
   </div>
 );
+
 
 export default Locations;
