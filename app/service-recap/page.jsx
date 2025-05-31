@@ -9,8 +9,9 @@ const YTPage = () => {
   const [error, setError] = useState("");
   const [activeShare, setActiveShare] = useState(null);
 
-  const API_KEY = "AIzaSyCPSpOPltLEc-REkMBQyEoM6nUxPMlCmqA";
-  const CHANNEL_ID = "UCZuAb-Wzi75TWPgubF8evvQ";
+  const API_KEY = process.env.NEXT_PUBLIC_YT_API_KEY;
+  const CHANNEL_ID = process.env.NEXT_PUBLIC_YT_CHANNEL_ID;
+  
 
   useEffect(() => {
     const fetchVideos = async () => {

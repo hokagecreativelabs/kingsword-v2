@@ -3,8 +3,9 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { Play, Share2, MessageCircle, Facebook, Twitter, Instagram, Copy, Check, Clock, Eye, X, Menu } from "lucide-react";
 
 // Move constants outside component to prevent re-renders
-const CHANNEL_ID = "UCZuAb-Wzi75TWPgubF8evvQ";
-const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY || "AIzaSyCPSpOPltLEc-REkMBQyEoM6nUxPMlCmqA";
+const API_KEY = process.env.NEXT_PUBLIC_YT_API_KEY;
+const CHANNEL_ID = process.env.NEXT_PUBLIC_YT_CHANNEL_ID;
+
 
 const YouTubeVideos = () => {
   const [videos, setVideos] = useState([]);
