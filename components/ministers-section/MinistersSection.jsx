@@ -61,7 +61,7 @@ const MinistersSection = () => {
         </div>
         <div className="text-center mt-12">
           <a
-            href="https://kingswordcalgary.churchcenter.com/registrations/events/2678923" // Replace with the actual registration link
+            href="https://kingswordcalgary.churchcenter.com/registrations/events/2949021"
             className="inline-block bg-[#000] text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300 hover:bg-[#5e3c63]" target='_blank'
           >
             Register Now

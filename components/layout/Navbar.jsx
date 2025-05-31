@@ -8,7 +8,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'SC–25', href: '/sc-25' },
+  { label: 'SC–25', href: '/supernatural-canada' },
   { label: 'Connect', href: '/connect' },
   { label: 'Events', href: '/events' },
   { label: 'Service-Recap', href: '/service-recap' },
