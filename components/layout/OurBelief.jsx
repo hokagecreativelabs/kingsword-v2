@@ -27,7 +27,10 @@ function OurBeliefContent() {
 
   return (
     <>
-      <section id='history' className="container mx-auto flex flex-wrap gap-24 items-center justify-center py-2 px-4 lg:px-0">
+      <section
+        id='history'
+        className="container mx-auto flex flex-col lg:flex-row gap-24 items-center justify-center py-2 px-4 lg:px-0"
+      >
         <div className="flex-1 max-w-md text-center lg:text-left mb-8 lg:mb-0">
           <h2 className="text-4xl max-w-xs font-bold mb-4">Raising A Supernatural Army</h2>
           <hr className="border-t-4 border-[#c27803] w-full lg:w-2/4 mb-8" />
@@ -54,7 +57,7 @@ function OurBeliefContent() {
             imageSources.map((src, index) => (
               <div key={index} className="mb-4">
                 <img
-                  className="object-cover rounded-lg shadow-lg w-full h-48 md:h-64"
+                  className="object-cover rounded-lg shadow-lg w-full h-72 md:h-64"
                   src={src}
                   alt={`Gallery ${index}`}
                   width={300}
