@@ -111,7 +111,7 @@ const Initiative = () => {
                       href={currentInitiative.buttonLink}
                       target={currentInitiative.buttonLink.startsWith("mailto:") ? "_self" : "_blank"}
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-3 px-6 py-4 bg-black text-white font-semibold rounded-xl hover:bg-[#c27803] hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-lg text-base md:text-lg"
+                      className="inline-flex items-center gap-3 px-6 py-4 bg-black text-white font-semibold rounded-xl hover:bg-gray-900 hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-lg text-base md:text-lg"
                     >
                       <span>{currentInitiative.buttonText}</span>
                       {currentInitiative.buttonLink.startsWith("mailto:") ? (
