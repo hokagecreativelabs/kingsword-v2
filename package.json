@@ -6,10 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "seed-admin": "node scripts/seedAdmin.js",
-    "delete-admin": "node scripts/deleteAdmin.js",
-    "check-admin": "node scripts/checkAdmin.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
