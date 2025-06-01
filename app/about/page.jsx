@@ -31,7 +31,7 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full mt-20">
       <div className="flex text-2xl justify-around items-center bg-yellow-300 py-3 shadow-md">
         {tabData.map((tab, index) => (
           <button

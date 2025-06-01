@@ -190,7 +190,7 @@ const YouTubeVideos = () => {
         {/* Header */}
         <div className="text-center mb-8 lg:mb-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-2 lg:mb-4 tracking-tight">
-            Latest Videos
+            Latest Sermon
           </h1>
         </div>
 

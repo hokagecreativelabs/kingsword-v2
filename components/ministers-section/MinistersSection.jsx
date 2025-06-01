@@ -60,12 +60,14 @@ const MinistersSection = () => {
           ))}
         </div>
         <div className="text-center mt-12">
-          <a
-            href="https://kingswordcalgary.churchcenter.com/registrations/events/2949021"
-            className="inline-block bg-[#000] text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300 hover:bg-[#5e3c63]" target='_blank'
-          >
-            Register Now
-          </a>
+            <a
+              href="https://kingswordcalgary.churchcenter.com/registrations/events/2949021"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-black text-white font-bold py-4 px-8 rounded"
+            >
+              Register Now
+            </a>
         </div>
       </div>
     </section>

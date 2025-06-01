@@ -8,14 +8,15 @@ import EventSchedule from '../../components/sc-schedule/SCSchedule';
 import ReflectionSection from '../../components/reflect/Reflect';
 import MinistersSection from '../../components/ministers-section/MinistersSection';
 import SummerCanadaPhotos from '../../components/summer-canada/SummerCanadaPhotos';
+import MerchSection from '@/components/MerchSection';
 
 // Static fallback or temporary mock data
 const parallaxData = {
   bgImage: '/assets/bg-25.jpg', // replace with your own local image path
-  title: 'Summer Canada 2025',
+  title: 'Supernatural Canada 2025',
   subtitle: 'An unforgettable encounter with God’s presence in the heart of Canada.',
   cta: 'Register Now',
-  link: 'https://kingswordcalgary.churchcenter.com/registrations/events/2949021',
+  link: 'https://kingswordcalgary.churchcenter.com/registrations/events/2678923',
 };
 
 const SC24Page = () => {
@@ -56,6 +57,9 @@ const SC24Page = () => {
       </div>
       <div className="mt-24">
         <MinistersSection />
+      </div>
+      <div className="mt-24">
+        <MerchSection />
       </div>
       <div className="mt-24">
         <SummerCanadaPhotos />
