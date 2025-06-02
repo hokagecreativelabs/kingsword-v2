@@ -61,7 +61,7 @@ const MinistersSection = () => {
         </div>
         <div className="text-center mt-12">
             <a
-              href="https://kingswordcalgary.churchcenter.com/registrations/events/2949021"
+              href="https://kingswordcalgary.churchcenter.com/registrations/events/2678923"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-black text-white font-bold py-4 px-8 rounded"
