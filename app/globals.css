@@ -54,10 +54,7 @@ html {
 
 body {
   color: var(--color-night-900);
-  background:
-    radial-gradient(circle at 90% 0%, rgb(184 138 42 / 0.16), transparent 30%),
-    radial-gradient(circle at 10% 15%, rgb(31 77 104 / 0.18), transparent 28%),
-    linear-gradient(180deg, var(--color-ivory-50) 0%, #f2eadb 100%);
+  background: #ffffff;
   font-size: var(--font-size-md);
   line-height: 1.55;
 }
@@ -255,7 +252,7 @@ a {
     --sidebar-ring: oklch(0.556 0 0);
   }
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring;
   }
   body {
     @apply bg-background text-foreground;

@@ -10,8 +10,15 @@ export default function Home() {
   return (
     <>
       <RevealWrapper delay={0.1}><HeroSection /></RevealWrapper>
-      <RevealWrapper delay={0.2}><YouTubeVideos /></RevealWrapper>
-      <RevealWrapper delay={0.3}><WorshipPage /></RevealWrapper>
+
+      <div className="bg-white pt-14 md:pt-20 lg:pt-24">
+        <RevealWrapper delay={0.2}><YouTubeVideos /></RevealWrapper>
+      </div>
+
+      <div className="bg-white pt-14 md:pt-20 lg:pt-24">
+        <RevealWrapper delay={0.3}><WorshipPage /></RevealWrapper>
+      </div>
+
       <RevealWrapper delay={0.5}><EventsSection /></RevealWrapper>
       <RevealWrapper delay={0.4}><Initiative /></RevealWrapper>
       <RevealWrapper delay={0.5}><GestureSection /></RevealWrapper>

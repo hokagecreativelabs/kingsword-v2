@@ -1,6 +1,8 @@
 "use client"
 import { useState, useEffect, useCallback, useMemo } from "react";
+import Image from "next/image";
 import { Play, Share2, MessageCircle, Facebook, Twitter, Instagram, Copy, Check, Clock, Eye, X, Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Move constants outside component to prevent re-renders
 const API_KEY = process.env.NEXT_PUBLIC_YT_API_KEY;
@@ -33,7 +35,8 @@ const YouTubeVideos = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6&type=video`
+        `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6&type=video`,
+        { cache: "no-store" }
       );
 
       if (!response.ok) {
@@ -173,12 +176,13 @@ const YouTubeVideos = () => {
           </div>
           <h3 className="text-2xl font-bold text-black mb-2">Unable to Load Videos</h3>
           <p className="text-gray-600 mb-6">{error}</p>
-          <button 
+          <Button
+            type="button"
             onClick={fetchVideos}
-            className="px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-900 transition-colors"
+            className="h-auto px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-900 transition-colors"
           >
             Try Again
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -197,13 +201,14 @@ const YouTubeVideos = () => {
         {/* Mobile Video List Toggle */}
         {isMobile && (
           <div className="mb-6">
-            <button
+            <Button
+              type="button"
               onClick={() => setShowVideoList(!showVideoList)}
-              className="w-full flex items-center justify-between p-4 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
+              className="h-auto w-full flex items-center justify-between p-4 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
             >
               <span className="font-semibold text-black">Browse Videos</span>
               <Menu className="w-5 h-5 text-black" />
-            </button>
+            </Button>
           </div>
         )}
 
@@ -222,6 +227,7 @@ const YouTubeVideos = () => {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
                   />
                 </div>
 
@@ -242,12 +248,14 @@ const YouTubeVideos = () => {
 
                     {/* Share Button */}
                     <div className="relative">
-                      <button
+                      <Button
+                        type="button"
+                        variant="ghost"
                         onClick={() => setShowShareMenu(!showShareMenu)}
-                        className="p-2 lg:p-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors group"
+                        className="h-auto p-2 lg:p-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors group"
                       >
                         <Share2 className="w-5 h-5 text-black group-hover:scale-110 transition-transform" />
-                      </button>
+                      </Button>
 
                       {/* Share Menu */}
                       {showShareMenu && (
@@ -255,41 +263,51 @@ const YouTubeVideos = () => {
     className="absolute top-12 right-4 z-50 bg-white shadow-xl rounded-xl p-2 flex gap-3"
     onClick={(e) => e.stopPropagation()} // Prevent closing on click inside
   >
-    <button
+    <Button
+      type="button"
+      variant="ghost"
       onClick={() => shareToFacebook(selectedVideoUrl)}
-      className="hover:bg-gray-100 p-2 rounded-lg"
+      className="h-auto hover:bg-gray-100 p-2 rounded-lg"
       aria-label="Share to Facebook"
     >
       <Facebook className="w-5 h-5 text-blue-600" />
-    </button>
+    </Button>
 
-    <button
+    <Button
+      type="button"
+      variant="ghost"
       onClick={() => shareToTwitter(selectedVideoUrl, selectedVideo.snippet.title)}
-      className="hover:bg-gray-100 p-2 rounded-lg"
+      className="h-auto hover:bg-gray-100 p-2 rounded-lg"
       aria-label="Share to Twitter"
     >
       <Twitter className="w-5 h-5 text-sky-500" />
-    </button>
+    </Button>
 
-    <button
+    <Button
+      type="button"
+      variant="ghost"
       onClick={() => shareToWhatsApp(selectedVideoUrl, selectedVideo.snippet.title)}
-      className="hover:bg-gray-100 p-2 rounded-lg"
+      className="h-auto hover:bg-gray-100 p-2 rounded-lg"
       aria-label="Share to WhatsApp"
     >
       <MessageCircle className="w-5 h-5 text-green-600" />
-    </button>
+    </Button>
 
-    <button
+    <Button
+      type="button"
+      variant="ghost"
       onClick={() => shareToInstagram()}
-      className="hover:bg-gray-100 p-2 rounded-lg"
+      className="h-auto hover:bg-gray-100 p-2 rounded-lg"
       aria-label="Share to Instagram"
     >
       <Instagram className="w-5 h-5 text-pink-500" />
-    </button>
+    </Button>
 
-    <button
+    <Button
+      type="button"
+      variant="ghost"
       onClick={() => copyToClipboard(selectedVideoUrl)}
-      className="hover:bg-gray-100 p-2 rounded-lg"
+      className="h-auto hover:bg-gray-100 p-2 rounded-lg"
       aria-label="Copy link"
     >
       {copiedStates.general ? (
@@ -297,7 +315,7 @@ const YouTubeVideos = () => {
       ) : (
         <Copy className="w-5 h-5 text-gray-600" />
       )}
-    </button>
+    </Button>
   </div>
 )}
 
@@ -331,12 +349,16 @@ const YouTubeVideos = () => {
                     >
                       <div className="flex gap-4">
                         <div className="relative flex-shrink-0">
-                          <img
-                            src={video.snippet.thumbnails.medium.url}
-                            alt={video.snippet.title}
-                            className="w-20 h-14 object-cover rounded-lg"
-                            loading="lazy"
-                          />
+                          <div className="relative w-20 h-14">
+                            <Image
+                              src={video.snippet.thumbnails.medium.url}
+                              alt={video.snippet.title}
+                              fill
+                              sizes="80px"
+                              className="object-cover rounded-lg"
+                              loading="lazy"
+                            />
+                          </div>
                           <div className="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <Play className="w-5 h-5 text-white" fill="white" />
                           </div>
@@ -368,12 +390,14 @@ const YouTubeVideos = () => {
             <div className="bg-white w-full max-h-[70vh] rounded-t-3xl overflow-hidden">
               <div className="p-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 className="text-xl font-bold text-black">Recent Videos</h3>
-                <button
+                <Button
+                  type="button"
+                  variant="ghost"
                   onClick={() => setShowVideoList(false)}
-                  className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
+                  className="h-auto p-2 hover:bg-gray-100 rounded-xl transition-colors"
                 >
                   <X className="w-5 h-5 text-gray-500" />
-                </button>
+                </Button>
               </div>
               <div className="overflow-y-auto max-h-[calc(70vh-80px)]">
                 <div className="p-4 space-y-3">
@@ -389,12 +413,16 @@ const YouTubeVideos = () => {
                     >
                       <div className="flex gap-4">
                         <div className="relative flex-shrink-0">
-                          <img
-                            src={video.snippet.thumbnails.medium.url}
-                            alt={video.snippet.title}
-                            className="w-24 h-16 object-cover rounded-lg"
-                            loading="lazy"
-                          />
+                          <div className="relative w-24 h-16">
+                            <Image
+                              src={video.snippet.thumbnails.medium.url}
+                              alt={video.snippet.title}
+                              fill
+                              sizes="96px"
+                              className="object-cover rounded-lg"
+                              loading="lazy"
+                            />
+                          </div>
                           <div className="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <Play className="w-6 h-6 text-white" fill="white" />
                           </div>

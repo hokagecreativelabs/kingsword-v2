@@ -1,139 +1,184 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/autoplay";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Mock data simulating the events you would get from Firestore
 const mockEvents = [
   {
     id: "1",
     title: "Easter Sunday Service",
-    // subtitle: "Join us for a week of spiritual growth and fellowship.",
     eventDate: "2025-04-25",
     imageUrl: "/assets/Easter-Sunday-Service copy.webp",
   },
   {
     id: "2",
     title: "Supernatural Canada 2025",
-    // subtitle: "Experience powerful worship every last Friday.",
     eventDate: "2025-06-28",
     imageUrl: "/assets/Supernatural.webp",
   },
   {
     id: "3",
     title: "Christmas Carol Service",
-    // subtitle: "A weekend retreat for youth and young adults.",
     eventDate: "2025-12-25",
     imageUrl: "/assets/Carol-Service.webp",
   },
   {
     id: "4",
     title: "CrossOver Service",
-    // subtitle: "Serve and give back to our local community.",
     eventDate: "2025-12-31",
     imageUrl: "/assets/Cross-Over-service.webp",
   },
 ];
 
 const EventsSection = () => {
-  const [events, setEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const events = useMemo(
+    () =>
+      [...mockEvents].sort(
+        (a, b) => new Date(a.eventDate) - new Date(b.eventDate)
+      ),
+    []
+  );
+
+  const [activeEventId, setActiveEventId] = useState(events[0]?.id || "");
+  const [isPaused, setIsPaused] = useState(false);
+
+  const activeEvent =
+    events.find((event) => event.id === activeEventId) || events[0];
+
+  const formatDateBits = (dateString) => {
+    const date = new Date(dateString);
+    return {
+      day: new Intl.DateTimeFormat("en-US", { day: "2-digit" }).format(date),
+      month: new Intl.DateTimeFormat("en-US", { month: "short" }).format(date),
+      full: new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(date),
+    };
+  };
 
   useEffect(() => {
-    // Simulate loading delay
-    const timer = setTimeout(() => {
-      // Sort mock events by date ascending
-      const sortedEvents = [...mockEvents].sort(
-        (a, b) => new Date(a.eventDate) - new Date(b.eventDate)
-      );
-      setEvents(sortedEvents);
-      setIsLoading(false);
-    }, 1500);
+    if (events.length < 2 || isPaused) return;
 
-    return () => clearTimeout(timer);
-  }, []);
+    const intervalId = setInterval(() => {
+      setActiveEventId((currentId) => {
+        const currentIndex = events.findIndex((event) => event.id === currentId);
+        const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % events.length : 0;
+        return events[nextIndex].id;
+      });
+    }, 4200);
+
+    return () => clearInterval(intervalId);
+  }, [events, isPaused]);
 
   return (
-    <div className="bg-yellow-100">
-      <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-700 mb-4 sm:mb-0 text-center sm:text-left">
-            Catch up on our upcoming monthly and annual events
-          </h2>
-          <a
-            href="/events"
-            target="__blank"
-            className="bg-black text-white py-2 px-6 sm:px-8 text-sm sm:text-base rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
-          >
-            View all events
-          </a>
-        </div>
-        {isLoading ? (
-          <div className="flex flex-wrap justify-center gap-4">
-            {[...Array(7)].map((_, index) => (
-              <div key={index} className="w-full sm:w-1/2 md:w-1/4 p-2">
-                <Skeleton height={200} />
-                <Skeleton width={200} height={24} className="mt-4" />
-                <Skeleton width={150} height={20} />
+    <section className="w-full bg-white py-16 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-12">
+          <div>
+            <div className="flex items-end justify-between border-b border-gray-200 pb-8 mb-2">
+              <div>
+                <p className="text-xs tracking-[0.16em] uppercase text-gray-500 font-semibold mb-4">
+                  Gatherings &amp; Liturgy
+                </p>
+                <h2 className="font-heading text-5xl md:text-6xl leading-[0.95] text-gray-800">
+                  Upcoming
+                  <br />
+                  Events
+                </h2>
               </div>
-            ))}
+              <p className="hidden md:block text-[11px] tracking-[0.14em] uppercase text-gray-400 font-semibold pb-2">
+                KingsWord Calendar / 2026
+              </p>
+            </div>
+
+            <div
+              className="divide-y divide-gray-200"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {events.map((event) => {
+                const dateInfo = formatDateBits(event.eventDate);
+                const isActive = activeEvent?.id === event.id;
+
+                return (
+                  <button
+                    key={event.id}
+                    type="button"
+                    onMouseEnter={() => setActiveEventId(event.id)}
+                    onFocus={() => setActiveEventId(event.id)}
+                    onClick={() => setActiveEventId(event.id)}
+                    className={`w-full text-left py-7 md:py-8 transition-all duration-300 ${
+                      isActive ? "bg-black" : "hover:bg-gray-50/40"
+                    }`}
+                    aria-current={isActive ? "true" : "false"}
+                  >
+                    <div className={`flex items-start gap-5 md:gap-7 px-1 md:px-2 border-l-2 ${isActive ? "border-gold-500" : "border-transparent"}`}>
+                      <div className="min-w-[52px] text-center">
+                        <p className={`text-4xl md:text-5xl font-heading leading-none ${isActive ? "text-ivory-100" : "text-gray-700"}`}>
+                          {dateInfo.day}
+                        </p>
+                        <p className={`text-[11px] mt-1 tracking-[0.14em] uppercase font-semibold ${isActive ? "text-gold-400" : "text-gray-400"}`}>
+                          {dateInfo.month}
+                        </p>
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <h3 className={`text-2xl md:text-4xl font-heading leading-tight ${isActive ? "text-white" : "text-gray-800"}`}>
+                          {event.title}
+                        </h3>
+                        <p className={`mt-2 text-xs md:text-sm tracking-[0.09em] uppercase font-semibold ${isActive ? "text-white/75" : "text-gray-500"}`}>
+                          {dateInfo.full}
+                        </p>
+                      </div>
+
+                      <div className={`md:hidden relative h-16 w-16 rounded-lg overflow-hidden shrink-0 border ${isActive ? "border-gold-400/60" : "border-transparent"}`}>
+                        <Image
+                          src={event.imageUrl}
+                          alt={event.title}
+                          fill
+                          sizes="64px"
+                          className="object-cover"
+                        />
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="pt-8">
+              <a href="/events" target="_blank" rel="noopener noreferrer">
+                <Button className="h-auto bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-xl">
+                  View all events
+                  <ArrowUpRight className="ml-2" />
+                </Button>
+              </a>
+            </div>
           </div>
-        ) : (
-          <Swiper
-            modules={[Autoplay]}
-            spaceBetween={50}
-            slidesPerView={1}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-            }}
-            breakpoints={{
-              640: {
-                slidesPerView: 2,
-              },
-              768: {
-                slidesPerView: 3,
-              },
-              1024: {
-                slidesPerView: 4,
-              },
-            }}
-          >
-            {events.map((event) => (
-              <SwiperSlide key={event.id}>
-                <div className="rounded overflow-hidden shadow-lg bg-white">
-                  <img
-                    src={event.imageUrl || "https://via.placeholder.com/500x300"}
-                    alt={`Event ${event.title}`}
-                    className="w-full h-auto object-cover"
-                  />
-                  <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">{event.title}</div>
-                    {/* <p className="text-gray-700 text-base">
-                      {event.subtitle || "No subtitle available"}
-                    </p> */}
-                    {/* Date formatting if needed */}
-                    <p className="text-sm text-gray-500 mt-2">
-                      {event.eventDate
-                        ? new Intl.DateTimeFormat("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }).format(new Date(event.eventDate))
-                        : "Date not available"}
-                    </p>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
+
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-lg">
+                <Image
+                  src={activeEvent?.imageUrl || "/assets/1.webp"}
+                  alt={activeEvent?.title || "Upcoming event"}
+                  fill
+                  sizes="(max-width: 1280px) 40vw, 33vw"
+                  className="object-cover"
+                  priority={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
